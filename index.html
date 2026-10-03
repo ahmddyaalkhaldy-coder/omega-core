@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#050000">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.groq.com https://*.workers.dev; img-src 'self' data:;">
+<title>OMEGA CORE | النظام المركزي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+    <header class="hdr">
+        <div class="hdr-r">
+            <div class="logo">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+                <div class="hdr-title">OMEGA CORE</div>
+                <div class="hdr-sub"><span class="dot"></span> <span id="sysStatus">نظام آمن ومشفّر</span></div>
+            </div>
+        </div>
+        <div class="hdr-l">
+            <button class="ibtn" id="bNew" aria-label="محادثة جديدة">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <button class="ibtn" id="bExport" aria-label="تصدير مشفر">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+            <button class="ibtn" id="bSet" aria-label="الإعدادات">
+                <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="rateLimitBar" class="rate-limit" style="display:none">
+        <span>⚠️ حد الرسائل: <span id="rateCount">0</span>/30 في الدقيقة</span>
+        <div class="rate-fill" id="rateFill"></div>
+    </div>
+
+    <main class="chat" id="chatArea">
+        <div class="welcome" id="welcome">
+            <h1>نظام أوميغا</h1>
+            <p>ذكاء اصطناعي ذاتي التطور. محمي بتشفير AES-GCM.<br>لا يمكن اعتراض أو قراءة بياناتك.</p>
+            <div class="evo-bar"><div class="evo-fill" id="evoFill"></div></div>
+            <div class="sys-stat">مستوى التطور العصبي: <span id="evoLvl">1.0</span></div>
+            <div class="sugs">
+                <div class="sug" data-q="حلل لي بنية البيانات المعقدة">تحليل معقد</div>
+                <div class="sug" data-q="اكتب كود بايثون متقدم للأمن السيبراني">أمن سيبراني</div>
+                <div class="sug" data-q="ما هي آخر التطورات في الحوسبة الكمية؟">حوسبة كمية</div>
+                <div class="sug" data-q="صمم لي خطة استراتيجية عسكرية">تخطيط استراتيجي</div>
+            </div>
+        </div>
+        <div id="msgs"></div>
+    </main>
+
+    <footer class="inp-area">
+        <div class="inp-box">
+            <textarea id="inp" placeholder="أدخل الأوامر المشفرة للنظام..." rows="1"></textarea>
+            <button class="send-btn" id="bSend" aria-label="إرسال">
+                <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+        </div>
+    </footer>
+</div>
+
+<div class="modal-bg" id="modal">
+    <div class="modal">
+        <div class="m-hdr">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                بروتوكولات الحماية
+            </h2>
+            <button class="ibtn" id="mClose"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+        </div>
+        <div class="m-body">
+            <div class="sec">
+                <h3>مفاتيح الوصول (مجزأة ومشفرة)</h3>
+                <div id="keyList"></div>
+                <button class="add-key" id="addKeyBtn">+ حقن مفتاح جديد</button>
+                <input type="text" class="k-inp" id="kInp" placeholder="gsk_..." autocomplete="off">
+                <div class="worker-info" id="workerInfo" style="display:none">
+                    <h3>Cloudflare Worker (موصى به)</h3>
+                    <input type="text" class="k-inp" id="workerUrl" placeholder="https://your-worker.workers.dev" style="display:block">
+                    <small style="color:var(--text-dim);font-size:10px">استخدم Worker لإخفاء المفاتيح تماماً</small>
+                </div>
+                <button class="add-key" id="toggleWorker" style="margin-top:8px">⚙️ إعداد Worker</button>
+            </div>
+            <div class="sec">
+                <h3>النسخ الاحتياطي المشفر</h3>
+                <button class="add-key" id="bImport">📥 استيراد بيانات مشفرة</button>
+                <input type="file" id="importFile" accept=".json" style="display:none">
+            </div>
+            <div class="sec">
+                <h3>حالة النظام الأمنية</h3>
+                <div class="sys-log">
+                    > التشفير المحلي: <span class="ok">AES-256-GCM (Web Crypto)</span><br>
+                    > الحماية من XSS: <span class="ok">مفعلة (Strict DOM Sanitizer)</span><br>
+                    > Rate Limiting: <span class="ok">30 رسالة/دقيقة</span><br>
+                    > Anti-Debug: <span class="ok">متعدد الطبقات</span><br>
+                    > Policy (CSP): <span class="ok">مقفلة بإحكام</span><br>
+                    > المفاتيح النشطة: <span id="activeKeysCount">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
